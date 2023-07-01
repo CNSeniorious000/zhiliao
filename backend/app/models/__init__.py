@@ -17,4 +17,5 @@ class Message(BaseModel):
 
 class Preset(BaseModel):
     title: str
-    messages: list[Message]
+    messages: list[Message] = []
+    examples: list[str] = []
