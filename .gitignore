@@ -1,0 +1,6 @@
+**/.vscode
+**/__pycache__
+frontend/package-lock.json
+frontend/pnpm-lock.yaml
+backend/poetry.lock
+backend/data
