@@ -4,7 +4,7 @@ from fastapi.responses import PlainTextResponse
 from app.models import Preset
 from app.storage import Storage, get_next_id
 
-router = APIRouter(prefix="/presets")
+router = APIRouter(prefix="/presets", tags=["Preset"])
 
 store = Storage("presets", dict)
 

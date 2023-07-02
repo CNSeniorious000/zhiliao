@@ -20,7 +20,7 @@
 		await fetch(presetId, {
 			method: 'PUT',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ title, messages })
+			body: JSON.stringify({ title, messages, examples })
 		});
 	}
 
@@ -72,7 +72,7 @@
 
 	<hr class="!border-dashed" />
 
-	<Accordion autocollapse duration={300}>
+	<Accordion>
 		<AccordionItem open={true}>
 			<svelte:fragment slot="summary">
 				<span class="tracking-wide"> 预设上下文 </span>
@@ -102,7 +102,7 @@
 				<button class="w-full btn variant-soft" on:click={() => insert(messages.length)}>+</button>
 			</svelte:fragment>
 		</AccordionItem>
-		<AccordionItem>
+		<AccordionItem open={true}>
 			<svelte:fragment slot="summary">
 				<span class="tracking-wide"> 预设追问选项 </span>
 			</svelte:fragment>
@@ -110,7 +110,7 @@
 				{#each examples as msg, i}
 					<div class="grid-cols-[auto_1fr_auto] input-group variant-form-material">
 						<div class="input-group-shim select-none">{i + 1}</div>
-						<input bind:value={msg} on:blur={sync} class="font-bold input variant-form-material !rounded-tl-none" type="text" placeholder="标题" />
+						<input bind:value={msg} on:blur={sync} class="font-bold input variant-form-material !rounded-tl-none placeholder:text-current placeholder:opacity-20" type="text" placeholder="标题" />
 					</div>
 				{:else}
 					<div class="text-center opacity-40 select-none">点击加号来添加预设追问选项</div>
