@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Accordion, AccordionItem, LightSwitch } from '@skeletonlabs/skeleton';
+	import { Accordion, AccordionItem, LightSwitch, SlideToggle } from '@skeletonlabs/skeleton';
 	import { goto, invalidateAll } from '$app/navigation';
 	import type { PageData } from './$types';
 
@@ -10,17 +10,21 @@
 
 	let {
 		presetId,
-		preset: { title, messages, examples }
+		preset: { title, messages, examples, hideContext }
 	}: {
 		presetId: string;
-		preset: { title: string; messages: Message[]; examples: string[] };
+		preset: { title: string; messages: Message[]; examples: string[]; hideContext: boolean };
 	} = data;
+
+	console.log({ data });
+
+	$: console.log({ hideContext });
 
 	async function sync() {
 		await fetch(presetId, {
 			method: 'PUT',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ title, messages, examples })
+			body: JSON.stringify({ title, messages, examples, hideContext })
 		});
 	}
 
@@ -67,7 +71,7 @@
 
 	<div class="grid-cols-[auto_1fr_auto] input-group variant-form-material">
 		<div class="input-group-shim select-none">课堂名称</div>
-		<input bind:value={title} on:blur={sync} class="font-bold input variant-form-material !rounded-tl-none placeholder:text-current placeholder:opacity-20" type="text" placeholder="标题" />
+		<input bind:value={title} on:blur={sync} class="font-bold input variant-form-material !rounded-tl-none placeholder:text-current placeholder:opacity-20" type="text" placeholder="追问消息" />
 	</div>
 
 	<hr class="!border-dashed" />
@@ -79,6 +83,10 @@
 			</svelte:fragment>
 
 			<svelte:fragment slot="content">
+				<div class="flex flex-row justify-between">
+					<span>在消息列表中隐藏预设上下文</span>
+					<SlideToggle size="sm" name="hideContext" bind:checked={hideContext} on:change={sync} />
+				</div>
 				{#each messages as { role, content }, i}
 					<div class="flex flex-row gap-10 overflow-scroll hide-scrollbar select-none">
 						<button class="tracking-widest btn variant-filled uppercase" on:click={() => changeRole(i)}>

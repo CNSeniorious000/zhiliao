@@ -24,7 +24,7 @@ async def add_a_preset(data: Preset):
 @router.put("/{preset_id}", status_code=204)
 async def update_a_preset(preset_id: str, data: Preset):
     try:
-        await store.update({preset_id: data.dict()})
+        await store.update({preset_id: data.dict(by_alias=True)})
     except KeyError:
         raise HTTPException(status_code=404, detail="Preset not found")
 
