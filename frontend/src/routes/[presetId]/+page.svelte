@@ -16,9 +16,8 @@
 		preset: { title: string; messages: Message[]; examples: string[]; hideContext: boolean };
 	} = data;
 
-	console.log({ data });
-
-	$: console.log({ hideContext });
+	messages ?? (messages = []);
+	examples ?? (examples = []);
 
 	async function sync() {
 		await fetch(presetId, {

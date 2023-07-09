@@ -25,6 +25,8 @@
 				</a>
 			{/each}
 		</ul>
+		<hr class="!border-dashed" />
+		<a href="/records" class="btn btn-sm w-full variant-soft" data-sveltekit-preload-data="tap">查看数据</a>
 	</div>
 </div>
 
