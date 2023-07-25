@@ -51,9 +51,6 @@ class Storage:
         if lock:
             self.lock.release()
 
-    def __repr__(self):
-        return str(self.data)
-
     def __await__(self):
         return self.get_data().__await__()
 
