@@ -17,22 +17,20 @@ class Storage:
         self.fallback = fallback or (lambda: None)
 
     async def get_data(self, *, lock=True):
-        if self.path.exists():
-            if lock:
-                await self.lock.acquire()
-            else:
-                assert self.lock.locked()
-
-            async with open(self.path, "rb") as f:
-                json = await f.read()
-
-            if lock:
-                self.lock.release()
-
-            return loads(json or "null") or self.fallback()
-
-        else:
+        if not self.path.exists():
             return self.fallback()
+        if lock:
+            await self.lock.acquire()
+        else:
+            assert self.lock.locked()
+
+        async with open(self.path, "rb") as f:
+            json = await f.read()
+
+        if lock:
+            self.lock.release()
+
+        return loads(json or "null") or self.fallback()
 
     async def set_data(self, data, *, lock=True):
         json = dumps(
